@@ -1,8 +1,8 @@
 def stream_from_file():
-    with open('addresses.txt', 'rb') as r:
+    with open('addresses3.txt', 'rb') as r:
         for l in r.readlines():
             y, x = l.decode('utf8').strip().split('　')
-            yield x, y
+            yield x, y[y.index('〒') + 1:].strip()
 
 
 class LazyDataLoader:
@@ -24,7 +24,12 @@ class LazyDataLoader:
         for x, y in self.stream:
             max_len_value_x = max(max_len_value_x, len(x))
             max_len_value_y = max(max_len_value_y, len(y))
+            print(y, max_len_value_y)
             num_lines += 1
+
+        print('max_len_value_x=', max_len_value_x)
+        print('max_len_value_y=', max_len_value_y)
+        print('num_lines=', num_lines)
         return max_len_value_x, max_len_value_y, num_lines
 
 

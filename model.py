@@ -86,11 +86,13 @@ print('Total addition questions:', len(questions))
 
 print('Vectorization...')
 x = np.zeros((len(questions), MAXLEN, len(chars)), dtype=np.bool)
-y = np.zeros((len(questions), OUTPUT_MAX_LEN + 1, len(chars)), dtype=np.bool)
+y = np.zeros((len(questions), OUTPUT_MAX_LEN, len(chars)), dtype=np.bool)
 for i, sentence in enumerate(questions):
+    # print(i)
     x[i] = ctable.encode(sentence, MAXLEN)
 for i, sentence in enumerate(expected):
-    y[i] = ctable.encode(sentence, OUTPUT_MAX_LEN + 1)
+    # print(i)
+    y[i] = ctable.encode(sentence, OUTPUT_MAX_LEN)
 
 # Shuffle (x, y) in unison as the later parts of x will almost all be larger
 # digits.
@@ -127,7 +129,7 @@ model.add(RNN(HIDDEN_SIZE, input_shape=(MAXLEN, len(chars))))
 # As the decoder RNN's input, repeatedly provide with the last hidden state of
 # RNN for each time step. Repeat 'DIGITS + 1' times as that's the maximum
 # length of output, e.g., when DIGITS=3, max output is 999+999=1998.
-model.add(layers.RepeatVector(OUTPUT_MAX_LEN + 1))
+model.add(layers.RepeatVector(OUTPUT_MAX_LEN))
 # The decoder RNN could be multiple layers stacked or a single layer.
 for _ in range(LAYERS):
     # By setting return_sequences to True, return not only the last output but
@@ -153,7 +155,7 @@ for iteration in range(1, 200):
     print('Iteration', iteration)
     model.fit(x_train, y_train,
               batch_size=BATCH_SIZE,
-              epochs=1,
+              epochs=10,
               validation_data=(x_val, y_val))
     # Select 10 samples from the validation set at random so we can visualize
     # errors.
