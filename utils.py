@@ -3,7 +3,7 @@ import pickle
 
 def build_vocabulary():
     vocabulary = set()
-    with open('addresses3.txt', 'rb') as r:
+    with open('addresses2.txt', 'rb') as r:
         for l in r.readlines():
             y, x = l.decode('utf8').strip().split('　')
             for element in list(y):
