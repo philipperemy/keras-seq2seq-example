@@ -135,3 +135,8 @@ Q ---------------千葉県匝瑳市八日市場イ２４０４−１
 T 289-2144
 ☑ 289-2144
 ```
+
+## References
+
+- [https://github.com/fchollet/keras/blob/master/examples/addition_rnn.py](https://github.com/fchollet/keras/blob/master/examples/addition_rnn.py)
+- [https://www.tensorflow.org/tutorials/seq2seq](https://www.tensorflow.org/tutorials/seq2seq)
