@@ -94,7 +94,7 @@ Epoch 10/10
 
 > You might have to run it a second time if it gets blocked around an accuracy of 0.38 after the first epoch. I ran it several times and the accuracy on the testing set was always around 0.90 after the 1st epoch.
 
-The script evaluates some examples once in a while. You can check the training procedure this way. `-` means pad. The sequences to the length of the longest address in the dataset.
+The script evaluates some examples once in a while. You can check the training procedure this way. `-` means pad. All the addresses are padded up to the length of the longest address in the dataset.
 
 ```
 Q -------------------福島県会津若松市栄町２−４
