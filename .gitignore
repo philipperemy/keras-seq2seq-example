@@ -5,6 +5,8 @@ __pycache__/
 .idea/
 .DS_Store
 
+bak
+
 *.pkl
 *.npz
 *.tsv
