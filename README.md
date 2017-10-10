@@ -44,7 +44,7 @@ Let's also mention that Google contains a big database and doing some lookups ar
   <br><i>Screenshot of Google.</i>
 </p>
 
-## Usage
+## Training
 
 What you need before executing the scripts
 
@@ -91,6 +91,8 @@ Epoch 9/10
 Epoch 10/10
 382617/382617 [==============================] - 200s - loss: 0.0180 - acc: 0.9950 - val_loss: 0.0263 - val_acc: 0.9933
 ```
+
+> You might have to run it a second time if it gets blocked around an accuracy of 0.38 after the first epoch. I ran it several times and the accuracy on the testing set was always around 0.90 after the 1st epoch.
 
 The script evaluates some examples once in a while. You can check the training procedure this way.
 
