@@ -9,8 +9,6 @@ Generic Keras implementation of a sequence to sequence model with several exampl
 </p>
 
 
-
-
 # Usage
 
 ```
@@ -20,6 +18,12 @@ python3 utils.py # build the vocabulary and the characters.
 export CUDA_VISIBLE_DEVICES=0; nohup python3 -u model.py &
 ```
 
+# Example
+
+<p align="center">
+  <img src="assets/IMG_0162.jpg" width="400">
+  <br><i>Encoder Decoder model (seq2seq)</i>
+</p>
 
 ```
 Iteration 1
