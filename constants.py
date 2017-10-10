@@ -1,3 +1,4 @@
+import os
 import pickle
 
 MAX_LEN = 30
@@ -8,9 +9,9 @@ MAX_LEN = 30
 # Token -> Index: <function at ORD>
 # Index -> Token: <function at CHR>
 
-INDICES_TOKEN = pickle.load(open('indices_token.pkl', 'rb'))
-TOKEN_INDICES = pickle.load(open('token_indices.pkl', 'rb'))
+if os.path.exists('indices_token.pkl'):
+    INDICES_TOKEN = pickle.load(open('indices_token.pkl', 'rb'))
+    TOKEN_INDICES = pickle.load(open('token_indices.pkl', 'rb'))
+    VOCAB_SIZE = len(TOKEN_INDICES)
 
-VOCAB_SIZE = len(TOKEN_INDICES)
-
-
+ADDRESS_FILE = 'addresses3.txt'

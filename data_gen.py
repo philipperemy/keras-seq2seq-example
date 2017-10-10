@@ -1,5 +1,8 @@
+from constants import ADDRESS_FILE
+
+
 def stream_from_file():
-    with open('addresses2.txt', 'rb') as r:
+    with open(ADDRESS_FILE, 'rb') as r:
         for l in r.readlines():
             y, x = l.decode('utf8').strip().split('　')
             yield x, y[y.index('〒') + 1:].strip()

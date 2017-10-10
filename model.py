@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 
+import os
+
 import numpy as np
 from keras import layers
 from keras.models import Sequential
@@ -84,27 +86,39 @@ while len(questions) < TRAINING_SIZE:
     expected.append(ans)
 print('Total addition questions:', len(questions))
 
-print('Vectorization...')
-x = np.zeros((len(questions), MAXLEN, len(chars)), dtype=np.bool)
-y = np.zeros((len(questions), OUTPUT_MAX_LEN, len(chars)), dtype=np.bool)
-for i, sentence in enumerate(questions):
-    # print(i)
-    x[i] = ctable.encode(sentence, MAXLEN)
-for i, sentence in enumerate(expected):
-    # print(i)
-    y[i] = ctable.encode(sentence, OUTPUT_MAX_LEN)
+if not os.path.exists('x_y.npz'):
+    print('Vectorization...')
 
-# Shuffle (x, y) in unison as the later parts of x will almost all be larger
-# digits.
-indices = np.arange(len(y))
-np.random.shuffle(indices)
-x = x[indices]
-y = y[indices]
+    x = np.zeros((len(questions), MAXLEN, len(chars)), dtype=np.bool)
+    y = np.zeros((len(questions), OUTPUT_MAX_LEN, len(chars)), dtype=np.bool)
+    for i, sentence in enumerate(questions):
+        print(i)
+        x[i] = ctable.encode(sentence, MAXLEN)
+    for i, sentence in enumerate(expected):
+        print(i)
+        y[i] = ctable.encode(sentence, OUTPUT_MAX_LEN)
 
-# Explicitly set apart 10% for validation data that we never train over.
-split_at = len(x) - len(x) // 10
-(x_train, x_val) = x[:split_at], x[split_at:]
-(y_train, y_val) = y[:split_at], y[split_at:]
+    # Shuffle (x, y) in unison as the later parts of x will almost all be larger
+    # digits.
+    indices = np.arange(len(y))
+    np.random.shuffle(indices)
+    x = x[indices]
+    y = y[indices]
+
+    # Explicitly set apart 10% for validation data that we never train over.
+    split_at = len(x) - len(x) // 10
+    (x_train, x_val) = x[:split_at], x[split_at:]
+    (y_train, y_val) = y[:split_at], y[split_at:]
+
+    np.savez_compressed('x_y.npz', x_train=x_train, x_val=x_val, y_train=y_train, y_val=y_val)
+
+else:
+    print('Loading prefetched data...')
+    data = np.load('x_y.npz')
+    x_train = data['x_train']
+    x_val = data['x_val']
+    y_train = data['y_train']
+    y_val = data['y_val']
 
 print('Training Data:')
 print(x_train.shape)
@@ -116,32 +130,62 @@ print(y_val.shape)
 
 # Try replacing GRU, or SimpleRNN.
 RNN = layers.LSTM
-HIDDEN_SIZE = 128
-BATCH_SIZE = 512
+HIDDEN_SIZE = 256
+BATCH_SIZE = 128
 LAYERS = 1
 
 print('Build model...')
-model = Sequential()
-# "Encode" the input sequence using an RNN, producing an output of HIDDEN_SIZE.
-# Note: In a situation where your input sequences have a variable length,
-# use input_shape=(None, num_feature).
-model.add(RNN(HIDDEN_SIZE, input_shape=(MAXLEN, len(chars))))
-# As the decoder RNN's input, repeatedly provide with the last hidden state of
-# RNN for each time step. Repeat 'DIGITS + 1' times as that's the maximum
-# length of output, e.g., when DIGITS=3, max output is 999+999=1998.
-model.add(layers.RepeatVector(OUTPUT_MAX_LEN))
-# The decoder RNN could be multiple layers stacked or a single layer.
-for _ in range(LAYERS):
-    # By setting return_sequences to True, return not only the last output but
-    # all the outputs so far in the form of (num_samples, timesteps,
-    # output_dim). This is necessary as TimeDistributed in the below expects
-    # the first dimension to be the timesteps.
-    model.add(RNN(HIDDEN_SIZE, return_sequences=True))
 
-# Apply a dense layer to the every temporal slice of an input. For each of step
-# of the output sequence, decide which character should be chosen.
-model.add(layers.TimeDistributed(layers.Dense(len(chars))))
-model.add(layers.Activation('softmax'))
+
+def model_1():
+    m = Sequential()
+    # "Encode" the input sequence using an RNN, producing an output of HIDDEN_SIZE.
+    # Note: In a situation where your input sequences have a variable length,
+    # use input_shape=(None, num_feature).
+    m.add(RNN(HIDDEN_SIZE, input_shape=(MAXLEN, len(chars))))
+    # As the decoder RNN's input, repeatedly provide with the last hidden state of
+    # RNN for each time step. Repeat 'DIGITS + 1' times as that's the maximum
+    # length of output, e.g., when DIGITS=3, max output is 999+999=1998.
+    m.add(layers.RepeatVector(OUTPUT_MAX_LEN))
+    # The decoder RNN could be multiple layers stacked or a single layer.
+    for _ in range(LAYERS):
+        # By setting return_sequences to True, return not only the last output but
+        # all the outputs so far in the form of (num_samples, timesteps,
+        # output_dim). This is necessary as TimeDistributed in the below expects
+        # the first dimension to be the timesteps.
+        m.add(RNN(HIDDEN_SIZE, return_sequences=True))
+    # Apply a dense layer to the every temporal slice of an input. For each of step
+    # of the output sequence, decide which character should be chosen.
+    m.add(layers.TimeDistributed(layers.Dense(len(chars))))
+    m.add(layers.Activation('softmax'))
+    return m
+
+
+def model_2():
+    # too big in Memory!
+    m = Sequential()
+    from keras.layers.core import Flatten, Dense, Reshape
+    from keras.layers.wrappers import TimeDistributed
+    m.add(Flatten(input_shape=(MAXLEN, len(chars))))
+    m.add(Dense(OUTPUT_MAX_LEN * len(chars)))
+    m.add(Reshape((OUTPUT_MAX_LEN, len(chars))))
+    m.add(TimeDistributed(Dense(len(chars), activation='softmax')))
+    return m
+
+
+def model_3():
+    m = Sequential()
+    from keras.layers.core import Dense, Reshape
+    from keras.layers.wrappers import TimeDistributed
+    m.add(RNN(HIDDEN_SIZE, input_shape=(MAXLEN, len(chars))))
+    m.add(Dense(OUTPUT_MAX_LEN * len(chars)))
+    m.add(Reshape((OUTPUT_MAX_LEN, len(chars))))
+    m.add(TimeDistributed(Dense(len(chars), activation='softmax')))
+    return m
+
+
+model = model_3()
+
 model.compile(loss='categorical_crossentropy',
               optimizer='adam',
               metrics=['accuracy'])
