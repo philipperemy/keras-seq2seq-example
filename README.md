@@ -9,9 +9,9 @@ Generic Keras implementation of a sequence to sequence model with several exampl
 </p>
 
 
-# Seq2Seq on Japanese postal <-> ZIP Code
+# Japanese postal Addresses ⇄ ZIP Code (seq2seq)
 
-## Problem
+## Problem explained
 
 Based on a Japanese postal address, predict the corresponding ZIP Code.
 
@@ -30,7 +30,7 @@ We expect the accuracy to be very high because there is a lot of redundancy in t
 
 Let's also mention that Google contains a big database and doing some lookups are possible. It should give a nearly perfect accuracy.
 
-The question is: Why do we bother building this model?
+*The question is: Why do we bother building this model?*
 
 - For the sake of learning!
 
