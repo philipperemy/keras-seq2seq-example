@@ -9,22 +9,15 @@ Generic Keras implementation of a sequence to sequence model with several exampl
 </p>
 
 
-# Usage
+# Seq2Seq on Japanese postal <-> ZIP Code
 
-```
-git clone https://github.com/philipperemy/keras-seq2seq-example.git
-cd keras-seq2seq-example
-python3 utils.py # build the vocabulary and the characters.
-export CUDA_VISIBLE_DEVICES=0; nohup python3 -u model.py &
-```
-
-# Example
+## Problem
 
 Based on a Japanese postal address, predict the corresponding ZIP Code.
 
 This address `福島県会津若松市栄町２−４` corresponds to `965-0871`.
 
-The current data set is composed of postal addresses, scraped from the Japanese yellow pages [itp.ne.jp](itp.ne.jp). One line looks like this:
+The current data set (~450k samples) is composed of postal addresses, scraped from the Japanese yellow pages [itp.ne.jp](itp.ne.jp). One line looks like this:
 
 <p align="center">
   <img src="assets/IMG_1.png" width="400">
@@ -48,8 +41,31 @@ The question is: Why do we bother building this model?
 
 <p align="center">
   <img src="assets/IMG_0162.jpg" width="400">
-  <br><i>Encoder Decoder model (seq2seq)</i>
+  <br><i>Screenshot of Google.</i>
 </p>
+
+## Usage
+
+What you need before executing the scripts
+
+- Keras and tensorflow installed
+- One NVIDIA GPU (>GTX1070)
+- A lot of RAM (>32GB). The vectorization is highly unoptimized.
+
+```
+git clone https://github.com/philipperemy/keras-seq2seq-example.git
+cd keras-seq2seq-example
+rm -rf *.npz *.pkl nohup.out
+python3 utils.py # build the vocabulary and the characters.
+python3 vectorization.py
+export CUDA_VISIBLE_DEVICES=0; nohup python3 -u model.py &
+```
+
+## Results
+
+After a while, you should see an accuracy very close to 1.0 for both the training and the validation set.
+
+This is what I have after the first 10 epochs:
 
 ```
 Iteration 1
@@ -74,6 +90,11 @@ Epoch 9/10
 382617/382617 [==============================] - 199s - loss: 0.0207 - acc: 0.9942 - val_loss: 0.0253 - val_acc: 0.9935
 Epoch 10/10
 382617/382617 [==============================] - 200s - loss: 0.0180 - acc: 0.9950 - val_loss: 0.0263 - val_acc: 0.9933
+```
+
+The script evaluates some examples once in a while. You can check the training procedure this way.
+
+```
 Q -------------------福島県会津若松市栄町２−４
 T 965-0871
 ☑ 965-0871
