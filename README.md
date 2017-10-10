@@ -9,7 +9,7 @@ Generic Keras implementation of a sequence to sequence model with several exampl
 </p>
 
 
-# Japanese postal Addresses ⇄ ZIP Code (seq2seq)
+# 1. Japanese postal Addresses ⇄ ZIP Code (seq2seq)
 
 ## Problem explained
 
@@ -34,7 +34,7 @@ Let's also mention that Google contains a big database and doing some lookups ar
 
 - For the sake of learning!
 
-- Google does not deal with unseen addresses (change a number by another one in an address, and see if Google knows about it).
+- Google does not deal with unseen addresses (permute numbers and see if Google knows about it).
 - If one or more characters are missing, Google hardly handles it. Deep learning can still make a prediction. 
 - We can add noise in the addresses (such as Dropout or character replacement) and train a model on this augmented data set.
 - Also it works totally offline (nowadays, it's less important though!)
@@ -135,6 +135,8 @@ Q ---------------千葉県匝瑳市八日市場イ２４０４−１
 T 289-2144
 ☑ 289-2144
 ```
+
+## 2. Yet to come!
 
 ## References
 
