@@ -20,6 +20,32 @@ export CUDA_VISIBLE_DEVICES=0; nohup python3 -u model.py &
 
 # Example
 
+Based on a Japanese postal address, predict the corresponding ZIP Code.
+
+This address `福島県会津若松市栄町２−４` corresponds to `965-0871`.
+
+The current data set is composed of postal addresses, scraped from the Japanese yellow pages [itp.ne.jp](itp.ne.jp). One line looks like this:
+
+<p align="center">
+  <img src="assets/IMG_1.png" width="400">
+  <br><i>Row of the data set</i>
+</p>
+
+We extract the left part (target) and the right part (inputs) and we build a supervised learning problem.
+
+We expect the accuracy to be very high because there is a lot of redundancy in the addresses.
+
+Let's also mention that Google contains a big database and doing some lookups are possible. It should give a nearly perfect accuracy.
+
+The question is: Why do we bother building this model?
+
+- For the sake of learning!
+
+- Google does not deal with unseen addresses (change a number by another one in an address, and see if Google knows about it).
+- If one or more characters are missing, Google hardly handles it. Deep learning can still make a prediction. 
+- We can add noise in the addresses (such as Dropout or character replacement) and train a model on this augmented data set.
+- Also it works totally offline (nowadays, it's less important though!)
+
 <p align="center">
   <img src="assets/IMG_0162.jpg" width="400">
   <br><i>Encoder Decoder model (seq2seq)</i>
