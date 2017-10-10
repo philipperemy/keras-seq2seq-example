@@ -5,6 +5,8 @@ __pycache__/
 .idea/
 .DS_Store
 
+*.pkl
+*.npz
 *.tsv
 *.tar.gz
 *out*
