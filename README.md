@@ -9,7 +9,7 @@ Generic Keras implementation of a sequence to sequence model with several exampl
 </p>
 
 
-# 1. Japanese postal Addresses ⇄ ZIP Code (seq2seq)
+# Japanese postal Addresses ⇄ ZIP Code (seq2seq)
 
 ## Problem explained
 
@@ -135,8 +135,6 @@ Q ---------------千葉県匝瑳市八日市場イ２４０４−１
 T 289-2144
 ☑ 289-2144
 ```
-
-## 2. Yet to come!
 
 ## References
 
