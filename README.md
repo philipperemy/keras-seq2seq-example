@@ -26,9 +26,9 @@ The current data set (~450k samples) is composed of postal addresses, scraped fr
 
 We extract the left part (target) and the right part (inputs) and we build a supervised learning problem.
 
-We expect the accuracy to be very high because there is a lot of redundancy in the addresses.
+We expect the accuracy to be very very high because finding the zip code based on the address is a deterministic function.
 
-Let's also mention that Google contains a big database and doing some lookups are possible. It should give a nearly perfect accuracy.
+Let's also mention that Google contains a big database and looking up is possible. It should give a nearly perfect accuracy.
 
 *The question is: Why do we bother building this model?*
 
@@ -93,6 +93,8 @@ Epoch 10/10
 ```
 
 > You might have to run it a second time if it gets blocked around an accuracy of 0.38 after the first epoch. I ran it several times and the accuracy on the testing set was always around 0.90 after the 1st epoch.
+
+After 75 epochs, the accuracy is around 0.9984. So roughly 16 mistakes per 10,000 calls. Not too bad. And the loss is still decreasing!
 
 The script evaluates some examples once in a while. You can check the training procedure this way. `-` means pad. All the addresses are padded up to the length of the longest address in the dataset.
 
