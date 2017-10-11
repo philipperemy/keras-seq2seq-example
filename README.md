@@ -96,6 +96,8 @@ Epoch 10/10
 
 After 75 epochs, the accuracy is around 0.9984. So roughly 16 mistakes per 10,000 calls. Not too bad. And the loss is still decreasing!
 
+After 199 epochs, the accuracy is around 0.9986. So roughly 14 mistakes per 10,000 calls. Almost flawless.
+
 The script evaluates some examples once in a while. You can check the training procedure this way. `-` means pad. All the addresses are padded up to the length of the longest address in the dataset.
 
 ```
