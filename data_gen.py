@@ -27,18 +27,17 @@ class LazyDataLoader:
         for x, y in self.stream:
             max_len_value_x = max(max_len_value_x, len(x))
             max_len_value_y = max(max_len_value_y, len(y))
-            print(y, max_len_value_y)
             num_lines += 1
 
-        print('max_len_value_x=', max_len_value_x)
-        print('max_len_value_y=', max_len_value_y)
-        print('num_lines=', num_lines)
+        print('max_len_value_x =', max_len_value_x)
+        print('max_len_value_y =', max_len_value_y)
+        print('num_lines =', num_lines)
         return max_len_value_x, max_len_value_y, num_lines
 
 
 if __name__ == '__main__':
+    # how to use it.
     ldl = LazyDataLoader()
     print(ldl.statistics())
-    exit(1)
     while True:
         print(ldl.next())

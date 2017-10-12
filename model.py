@@ -48,23 +48,10 @@ print('Build model...')
 
 def model_1():
     m = Sequential()
-    # "Encode" the input sequence using an RNN, producing an output of HIDDEN_SIZE.
-    # Note: In a situation where your input sequences have a variable length,
-    # use input_shape=(None, num_feature).
     m.add(RNN(HIDDEN_SIZE, input_shape=(INPUT_MAX_LEN, len(chars))))
-    # As the decoder RNN's input, repeatedly provide with the last hidden state of
-    # RNN for each time step. Repeat 'DIGITS + 1' times as that's the maximum
-    # length of output, e.g., when DIGITS=3, max output is 999+999=1998.
     m.add(layers.RepeatVector(OUTPUT_MAX_LEN))
-    # The decoder RNN could be multiple layers stacked or a single layer.
     for _ in range(LAYERS):
-        # By setting return_sequences to True, return not only the last output but
-        # all the outputs so far in the form of (num_samples, timesteps,
-        # output_dim). This is necessary as TimeDistributed in the below expects
-        # the first dimension to be the timesteps.
         m.add(RNN(HIDDEN_SIZE, return_sequences=True))
-    # Apply a dense layer to the every temporal slice of an input. For each of step
-    # of the output sequence, decide which character should be chosen.
     m.add(layers.TimeDistributed(layers.Dense(len(chars))))
     m.add(layers.Activation('softmax'))
     return m
@@ -107,13 +94,13 @@ for iteration in range(1, 200):
     print('Iteration', iteration)
     model.fit(x_train, y_train,
               batch_size=BATCH_SIZE,
-              epochs=10,
+              epochs=1,
               validation_data=(x_val, y_val))
     # Select 10 samples from the validation set at random so we can visualize
     # errors.
     for i in range(10):
-        ind = np.random.randint(0, len(x_train))
-        rowx, rowy = x_train[np.array([ind])], y_train[np.array([ind])]  # replace by x_val, y_val
+        ind = np.random.randint(0, len(x_val))
+        rowx, rowy = x_val[np.array([ind])], y_val[np.array([ind])]  # replace by x_val, y_val
         preds = model.predict_classes(rowx, verbose=0)
         q = ctable.decode(rowx[0])
         correct = ctable.decode(rowy[0])
