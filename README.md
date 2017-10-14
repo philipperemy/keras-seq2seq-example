@@ -28,7 +28,7 @@ We extract the left part (target) and the right part (inputs) and we build a sup
 
 We expect the accuracy to be very very high because finding the zip code based on the address is a deterministic function.
 
-Let's also mention that Google contains a big database and looking up is possible. It should give a nearly perfect accuracy.
+Let's also mention that Google contains a big database and lookups are possible. It should give a nearly perfect accuracy.
 
 *The question is: Why do we bother building this model?*
 
