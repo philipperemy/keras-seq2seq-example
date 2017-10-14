@@ -49,21 +49,21 @@ def permute_two_chars_randomly(input_str):
     return output_str
 
 
-def add_data_augmentation(input_str, probs, vocabulary):
-    nothing, add, remove, change = 0, 1, 2, 3
-    status = np.random.choice(a=[nothing, add, remove, change], size=1, replace=False, p=probs)
-    if status == nothing:
-        return input_str, nothing
-    elif status == add:
-        return add_char_randomly(input_str, vocabulary), add
-    elif status == remove:
-        return remove_char_randomly(input_str), remove
-    elif status == change:
-        return change_char_randomly(input_str, vocabulary), change
+def add_noise_to_data(input_str, probs, vocabulary):
+    no_change, add_char, remove_char, change_char = 0, 1, 2, 3
+    noise_type = np.random.choice(a=[no_change, add_char, remove_char, change_char], size=1, replace=False, p=probs)
+    if noise_type == no_change:
+        return input_str, no_change
+    elif noise_type == add_char:
+        return add_char_randomly(input_str, vocabulary), add_char
+    elif noise_type == remove_char:
+        return remove_char_randomly(input_str), remove_char
+    elif noise_type == change_char:
+        return change_char_randomly(input_str, vocabulary), change_char
     else:
         raise Exception('Invalid return.')
 
 
 if __name__ == '__main__':
     while True:
-        print(add_data_augmentation('hello world', [0.4, 0.2, 0.2, 0.2], VOCABULARY))
+        print(add_noise_to_data('hello world', [0.4, 0.2, 0.2, 0.2], VOCABULARY))

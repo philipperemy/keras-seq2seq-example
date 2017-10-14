@@ -1,6 +1,7 @@
 import numpy as np
 
-from constants import INVERT
+from constants import INVERT, ADD_NOISE_TO_DATA, NOISE_PROBS
+from data_augmentation import add_noise_to_data
 from data_gen import LazyDataLoader
 from utils import get_chars_and_ctable, get_TOKEN_INDICES
 
@@ -23,10 +24,17 @@ while len(questions) < TRAINING_SIZE:
     q = x
     query = q
     ans = y
+
+    if ADD_NOISE_TO_DATA:
+        # print('Old query =', query, end='  |   ')
+        query, _ = add_noise_to_data(input_str=query, probs=NOISE_PROBS, vocabulary=chars)
+        # print('Query =', query, '  |   Noise type =', noise_type)
+
     if INVERT:
         # Reverse the query, e.g., '12+345  ' becomes '  543+21'. (Note the
         # space used for padding.)
         query = query[::-1]
+
     questions.append(query)
     expected.append(ans)
 print('Total addition questions:', len(questions))
