@@ -26,7 +26,7 @@ The current data set (~300k samples) is composed of postal addresses, scraped fr
 
 We extract the left part (target) and the right part (inputs) and we build a supervised learning problem.
 
-We expect the accuracy to be very very high because finding the zip code based on the address is a deterministic function.
+We expect the accuracy to be very very high because finding the zip code based on the address is a deterministic function (cf. [Zip codes in Japan](http://www.zipcode-jp.com/modules/zipcode/getarea.php?aid=13113)).
 
 Let's also mention that Google contains a big database and lookups are possible. It should give a nearly perfect accuracy.
 
