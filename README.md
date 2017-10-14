@@ -17,7 +17,7 @@ Based on a Japanese postal address, predict the corresponding ZIP Code.
 
 This address `福島県会津若松市栄町２−４` corresponds to `965-0871`.
 
-The current data set (~450k samples) is composed of postal addresses, scraped from the Japanese yellow pages [itp.ne.jp](itp.ne.jp). One line looks like this:
+The current data set (~300k samples) is composed of postal addresses, scraped from the Japanese yellow pages [itp.ne.jp](itp.ne.jp). One line looks like this:
 
 <p align="center">
   <img src="assets/IMG_1.png" width="400">
