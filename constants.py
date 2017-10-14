@@ -4,5 +4,5 @@ INVERT = True
 
 ADD_NOISE_TO_DATA = True
 
-# [proba(no_change), proba(add_random_char), proba(remove_random_char), proba(change_random_char)]
+# [prob(no_change), prob(add_random_char), prob(remove_random_char), prob(change_random_char)]
 NOISE_PROBS = [0.4, 0.2, 0.2, 0.2]
