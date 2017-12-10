@@ -1,5 +1,5 @@
 # Keras sequence to sequence example
-Generic Keras implementation of a sequence to sequence model with several examples.
+Very simple Keras implementation of a sequence to sequence model with several examples.
 
 [![license](https://img.shields.io/badge/License-Apache_2.0-brightgreen.svg)](https://github.com/philipperemy/keras-seq2seq-example/blob/master/LICENSE) [![dep1](https://img.shields.io/badge/Tensorflow-1.2+-blue.svg)](https://www.tensorflow.org/) [![dep2](https://img.shields.io/badge/Keras-2.0+-blue.svg)](https://keras.io/) 
 
