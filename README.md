@@ -5,7 +5,7 @@ Very simple Keras implementation of a sequence to sequence model with several ex
 
 <p align="center">
   <img src="http://suriyadeepan.github.io/img/seq2seq/seq2seq2.png" width="700">
-  <br><i>Encoder Decoder model (seq2seq)</i>
+  <br><i>An example of a sequence to sequence mode: Encoder Decoder model</i>
 </p>
 
 
