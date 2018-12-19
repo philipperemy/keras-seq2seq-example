@@ -52,7 +52,7 @@ What you need before executing the scripts
 - One NVIDIA GPU (>GTX1070)
 - A lot of RAM (>32GB). The vectorization is highly unoptimized.
 
-```
+```bash
 git clone https://github.com/philipperemy/keras-seq2seq-example.git
 cd keras-seq2seq-example
 rm -rf *.npz *.pkl nohup.out
